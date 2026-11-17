@@ -59,5 +59,3 @@ The implementation uses approximate CVE matching and heuristic risk indicators. 
 ## References and third-party resources
 
 The project integrates [Nmap](https://nmap.org/), [NVD](https://nvd.nist.gov/), [MITRE ATT&CK](https://attack.mitre.org/), [Ollama](https://ollama.com/), [HackTricks](https://book.hacktricks.wiki/), and [Chart.js](https://www.chartjs.org/). These are external projects, not original work by the capstone team. Model weights, vulnerability datasets, and the downloaded HackTricks mirror are not included. Their respective terms apply.
-
-No new software licence is assigned by this archive.
