@@ -1,0 +1,4 @@
+# Direct imports inferred from source; versions are not locked or runtime-verified.
+Flask
+bcrypt
+requests

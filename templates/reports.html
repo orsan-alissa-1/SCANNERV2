@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Scan Reports - ScannerV2{% endblock %}
+
+{% block content %}
+<h2 style="margin-bottom: 20px;">📁 Scan Reports</h2>
+
+{% if reports %}
+<div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: flex-start;">
+  {% for report in reports %}
+    <div style="flex: 1 1 200px; max-width: 250px; display: flex; flex-direction: column;">
+      <a href="{{ url_for('report_detail', filename=report | urlencode) }}"
+         style="text-decoration: none;">
+        <div style="
+          border: 2px solid #007BFF;
+          border-radius: 12px;
+          padding: 20px;
+          text-align: center;
+          background: #eef6ff;
+          transition: transform 0.2s, background-color 0.2s;
+          box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.05);
+        " onmouseover="this.style.background='#dceeff'; this.style.transform='scale(1.02)';"
+           onmouseout="this.style.background='#eef6ff'; this.style.transform='scale(1.0)';">
+          <h3 style="color: #007BFF; font-size: 1.2em;">📝 {{ report }}</h3>
+          <p style="font-size: 13px; color: gray;">Click to view full report</p>
+        </div>
+      </a>
+      <!-- Delete Button -->
+      <form action="{{ url_for('delete_report', filename=report | urlencode) }}" method="post" style="margin-top: 8px; align-self: center;">
+        <button type="submit" class="btn btn-danger" style="padding: 4px 12px; border-radius: 6px;">🗑 Delete</button>
+      </form>
+    </div>
+  {% endfor %}
+</div>
+{% else %}
+  <p style="color: gray; font-style: italic;">No scan reports available yet.</p>
+{% endif %}
+{% endblock %}

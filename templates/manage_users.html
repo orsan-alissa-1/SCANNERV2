@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Manage Users - ScannerV2{% endblock %}
+
+{% block content %}
+<h2>👤 Manage Users</h2>
+
+<!-- Add User Form -->
+<div style="margin-top: 20px; margin-bottom: 30px;">
+  <form method="post" style="display: flex; flex-wrap: wrap; gap: 15px; align-items: center;">
+    <input type="text" name="new_username" placeholder="Username" required style="padding: 8px; width: 150px; border-radius: 6px; border: 1px solid #ccc;">
+    <input type="password" name="new_password" placeholder="Password" required style="padding: 8px; width: 150px; border-radius: 6px; border: 1px solid #ccc;">
+    <select name="new_role" required style="padding: 8px; border-radius: 6px; border: 1px solid #ccc;">
+      <option value="user">User</option>
+      <option value="admin">Admin</option>
+    </select>
+    <button type="submit" name="add_user" style="padding: 8px 20px; background: #007BFF; color: white; border: none; border-radius: 6px;">➕ Add User</button>
+  </form>
+</div>
+
+<!-- User Table -->
+<table style="width: 100%; border-collapse: collapse;">
+  <thead>
+    <tr style="background-color: #f0f0f0;">
+      <th style="padding: 10px; border: 1px solid #ccc;">ID</th>
+      <th style="padding: 10px; border: 1px solid #ccc;">Username</th>
+      <th style="padding: 10px; border: 1px solid #ccc;">Role</th>
+      <th style="padding: 10px; border: 1px solid #ccc;">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for user in users %}
+    <tr>
+      <td style="padding: 10px; border: 1px solid #ccc;">{{ user[0] }}</td>
+      <td style="padding: 10px; border: 1px solid #ccc;">{{ user[1] }}</td>
+      <td style="padding: 10px; border: 1px solid #ccc;">
+        <form method="post" style="display: inline;">
+          <input type="hidden" name="user_id" value="{{ user[0] }}">
+          <select name="role" style="padding: 5px;">
+            <option value="user" {% if user[2] == "user" %}selected{% endif %}>User</option>
+            <option value="admin" {% if user[2] == "admin" %}selected{% endif %}>Admin</option>
+          </select>
+          <button type="submit" name="update_role" style="padding: 5px 10px;">🔄</button>
+        </form>
+      </td>
+      <td style="padding: 10px; border: 1px solid #ccc;">
+        <form method="post" style="display: inline;">
+          <input type="hidden" name="user_id" value="{{ user[0] }}">
+          <button type="submit" name="delete_user" onclick="return confirm('Delete this user?')" style="padding: 5px 10px; background: red; color: white;">❌</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}ScannerV2{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f8f9fa;
+    }
+    .topbar {
+      background-color: #007BFF;
+      color: white;
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .topbar a {
+      color: white;
+      margin-left: 15px;
+      text-decoration: none;
+    }
+    .topbar a:hover {
+      text-decoration: underline;
+    }
+    .content-container {
+      padding: 30px;
+      max-width: 1200px;
+      margin: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="topbar">
+    <div><b>ScannerV2</b></div>
+    <div>
+      {% if session.get("logged_in") %}
+        Welcome, {{ session.get("username", "User") }}
+        | <a href="{{ url_for('scanner') }}">Scan</a>
+        | <a href="{{ url_for('home') }}">Dashboard</a>
+        | <a href="{{ url_for('reports') }}">Reports</a>
+        {% if session.get("username") == "admin" %}
+          <!-- | <a href="{{ url_for('manage_users') }}">⚙ Settings</a> -->
+	  | <a href="{{ url_for('manage_users') }}">⚙ Settings</a>
+        {% endif %}
+        | <a href="{{ url_for('logout') }}">Logout</a>
+      {% else %}
+        <a href="{{ url_for('login') }}">Login</a>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="content-container">
+    {% block content %}{% endblock %}
+  </div>
+
+</body>
+</html>

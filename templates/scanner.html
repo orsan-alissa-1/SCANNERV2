@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Run Scan - ScannerV2{% endblock %}
+
+{% block content %}
+<div style="display: flex; justify-content: center; align-items: center; min-height: 70vh; background: linear-gradient(120deg, #f5f8fa 70%, #eaf1fa 100%);">
+  <div style="width: 100%; max-width: 600px; background: #fff; border-radius: 18px; box-shadow: 0 4px 24px rgba(60,90,180,0.07); padding: 42px 38px 34px 38px;">
+    <h2 style="margin-bottom: 30px; color: #0052cc; font-weight: 800; font-size: 2rem; letter-spacing: -1px; text-align: center;">
+      🔍 Run Vulnerability Scan
+    </h2>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul style="list-style: none; padding: 0; margin-bottom: 22px;">
+          {% for category, message in messages %}
+            <li style="color: {% if category == 'error' %}#d32f2f{% elif category == 'danger' %}#d32f2f{% else %}#357a38{% endif %}; font-weight: 600; margin-bottom: 8px;">
+              {{ message }}
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <form method="post" autocomplete="off">
+      <div style="margin-bottom: 22px;">
+        <label for="ip_address" style="font-weight: 700; color: #24292f; margin-bottom: 6px; display: block;">IP or CIDR Range:</label>
+        <input type="text" name="ip_address" placeholder="e.g., 192.168.1.1 or 192.168.1.0/24" required
+               style="width: 100%; padding: 12px 12px; border: 1.5px solid #cfd8dc; border-radius: 8px; font-size: 1rem; background: #f5f8fa;">
+      </div>
+
+      <div style="margin-bottom: 22px;">
+        <label for="ports" style="font-weight: 700; color: #24292f; margin-bottom: 6px; display: block;">Port Range:</label>
+        <input type="text" name="ports" placeholder="e.g., 20-100" required
+               style="width: 100%; padding: 12px 12px; border: 1.5px solid #cfd8dc; border-radius: 8px; font-size: 1rem; background: #f5f8fa;">
+      </div>
+
+      <div style="margin-bottom: 32px;">
+        <label for="output_file" style="font-weight: 700; color: #24292f; margin-bottom: 6px; display: block;">Output Filename:</label>
+        <input type="text" name="output_file" placeholder="e.g., scan1.txt" required
+               style="width: 100%; padding: 12px 12px; border: 1.5px solid #cfd8dc; border-radius: 8px; font-size: 1rem; background: #f5f8fa;">
+      </div>
+
+      <button type="submit"
+        style="width: 100%; background: linear-gradient(90deg, #1976d2 60%, #64b5f6 100%); color: #fff; padding: 14px 0; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: 700; box-shadow: 0 2px 8px rgba(25,118,210,0.05); letter-spacing: 1px; cursor: pointer; transition: background 0.18s;">
+        🚀 Start Scan
+      </button>
+    </form>
+  </div>
+</div>
+{% endblock %}

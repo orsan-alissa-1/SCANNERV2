@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - ScannerV2{% endblock %}
+
+{% block content %}
+<h2>📊 Dashboard</h2>
+
+<div style="margin-top: 20px;">
+    <form id="updateForm" action="{{ url_for('download_cves') }}" method="get">
+        <button type="submit" style="padding: 10px 20px; background-color: #007BFF; color: white; border: none; border-radius: 5px;">
+            🔄 Update CVEs
+        </button>
+    </form>
+    <p id="loadingMsg" style="display: none; color: orange; font-weight: bold; margin-top: 10px;">
+        ⏳ Updating CVEs... please wait!
+    </p>
+</div>
+
+<div style="margin-top: 30px;">
+    <h3>🧱 Total Stored Vulnerabilities: {{ total_cves }}</h3>
+    <p style="color: green;">🆕 Scan Reports Available: {{ report_count }}</p>
+</div>
+
+<div style="margin-top: 30px;">
+    <canvas id="severityChart" width="800" height="400"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const data = {
+        labels: ['Critical', 'High', 'Medium', 'Low', 'Informational'],
+        datasets: [{
+            label: 'Severity Distribution',
+            data: [
+                {{ severity_counts.critical }},
+                {{ severity_counts.high }},
+                {{ severity_counts.medium }},
+                {{ severity_counts.low }},
+                {{ severity_counts.info }}
+            ],
+            backgroundColor: [
+                '#dc3545',  // Critical - Red
+                '#fd7e14',  // High - Orange
+                '#ffc107',  // Medium - Yellow
+                '#198754',  // Low - Green
+                '#0dcaf0'   // Informational - Blue
+            ],
+            borderColor: '#333',
+            borderWidth: 1
+        }]
+    };
+
+    const config = {
+        type: 'bar',
+        data: data,
+        options: {
+            plugins: {
+                legend: {
+                    display: false
+                },
+                title: {
+                    display: true,
+                    text: 'Vulnerability Severity Distribution'
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1
+                    }
+                }
+            }
+        }
+    };
+
+    new Chart(document.getElementById('severityChart'), config);
+
+    document.getElementById("updateForm").addEventListener("submit", function () {
+        document.getElementById("loadingMsg").style.display = "block";
+    });
+</script>
+{% endblock %}
